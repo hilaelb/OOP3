@@ -1,9 +1,31 @@
-public class Board {
-    public char wall = '#';
-    public char player = '@';
-    public char enemy1 = 's';
-    public char enemy2 = 'B';
-    public char enemy3 = 'k';
-    public char monstar = 'M';
-    public Board(){}
+public class GameBoard {
+    private List<Tile> tiles;
+
+    public GameBoard(Tile[][] board){
+        tiles = new ArrayList<>();
+        for(Tile[] line : board){
+            tiles.addAll(Arrays.asList(line));
+        }
+    }
+
+    public Tile get(int x, int y) {
+        for(Tile t : tiles){
+            if (t.getPosition().equals(Position.at(x, y))){
+                return t;
+            }
+        }
+        // Throw an exception if no such tile.
+    }
+
+    public void remove(Enemy e) {
+        tiles.remove(e);
+        Position p = e.getPosition();
+        tiles.add(new Empty(p));
+    }
+
+    @Override
+    public String toString() {
+        tiles = tiles.stream().sorted().collect(Collectors.toList());
+        // TODO: Implement me
+    }
 }
